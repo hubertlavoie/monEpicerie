@@ -144,6 +144,7 @@ class Commande extends Component {
             dataSource={lesProduitsDeLaListe}
             onUpdateInput={this.creationDuProduit}
             searchText={this.state.nomProduit}
+            openOnFocus={true}
             maxSearchResults={5}
           />
           <div style={{margin:"0px 0px 5px 25px",position:"relative",top:"20px"}}>
