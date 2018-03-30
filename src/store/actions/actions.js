@@ -2,11 +2,6 @@ import * as actionTypes from './actionTypes';
 import axios from '../../axios-produits.js';
 import * as firebase from "firebase";
 
-var config = {
-  databaseURL: "https://react-my-burger-7dea4.firebaseio.com/"
-};
-firebase.initializeApp(config);
-
 export const addListeProduitSuccess = (id, nom) => {
   return {
     type: actionTypes.LISTEADDPRODUIT, id:id, nomProduit: nom
