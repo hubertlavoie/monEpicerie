@@ -1,0 +1,15 @@
+
+.listeDepicerie--title{
+  padding:12px 15px ;
+  box-sizing: border-box;
+  font-size:20px;
+  color:#00bcd4;
+  margin:20px 0 0 0;
+}
+.totalPrice{
+  font-size: 21px;
+  color: #fff;
+  padding: 14px;
+  margin: 0px;
+  background: #00bcd4;
+}
