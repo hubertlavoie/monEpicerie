@@ -4,6 +4,9 @@ import Produit from './Produit/Produit';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 import Snackbar from 'material-ui/Snackbar';
+import RaisedButton from 'material-ui/RaisedButton';
+import * as firebase from "firebase";
+
 
 class Produits extends Component {
 
@@ -27,8 +30,20 @@ class Produits extends Component {
     window.navigator.vibrate(5);
   }
 
-  render() {
+  removeProdsFromDatabase = () => {
+    this.props.listeProduits.forEach(
+      produits => {
+        if(produits.isAdded === true){
+          firebase.database().ref('produits/' + produits.id).remove()
+        }
+        
+      }
+    )
+   
+  }
 
+  render() {
+    let btnPasserCommande;
     let lesProduits = null;
     if (this.props.produits.length > 0){
       lesProduits = this.props.produits.map((e)=>{
@@ -43,16 +58,25 @@ class Produits extends Component {
           total={e.prixTotal}
           leprix={produitToFixed}
           clicked={()=> {
-            this.props.deleteProduit(e.id);
+            this.props.deleteProduit(e.id, e.nomProduit);
             this.handleClick();
             this.vibrate();
           }} />
       })
+      btnPasserCommande = <div style={{textAlign:"center",marginTop:"30px"}}><RaisedButton primary label="Passer la commande" onClick={()=>{
+        this.props.resetAll();
+        this.removeProdsFromDatabase();
+        
+      }
+        
+      } /></div>;
     }
+
 
     return (
       <Aux>
         {lesProduits}
+        {btnPasserCommande}
         <div style={{textAlign:"center"}}>
           <Snackbar
             open={this.state.open}
@@ -69,13 +93,15 @@ class Produits extends Component {
 
 const mapStateToProps = state => {
   return {
-    produits: state.produits.produits
+    produits: state.produits.produits,
+    listeProduits : state.listeProduits.listeProduits
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteProduit: (id) => dispatch({type: actionTypes.DELETEPRODUIT, prodID: id})
+    deleteProduit: (id,nomProduit) => dispatch({type: actionTypes.DELETEPRODUIT, prodID: id, nomProduit: nomProduit}),
+    resetAll: () => dispatch({type: actionTypes.RESETALL})
   };
 };
 

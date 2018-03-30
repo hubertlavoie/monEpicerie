@@ -9,6 +9,14 @@ const listeProduits = (state = initialState, action) => {
 
   switch (action.type) {
 
+    case actionTypes.RESETALL:
+
+    let removeProductAdded = state.listeProduits.filter(produits=> produits.isAdded !== true)
+
+    return{
+      ...state,
+      listeProduits: removeProductAdded
+    }
 
     case actionTypes.VERIFYIFINLIST:
 
@@ -24,12 +32,32 @@ const listeProduits = (state = initialState, action) => {
 
     })
 
-    
-
     return{
       ...state,
       listeProduits: arrayIsInList
     }
+
+    
+    case actionTypes.DELETEPRODUIT:
+
+    let arrayWithProduitDeleted = state.listeProduits.map(produits => {
+      if(produits.nom === action.nomProduit){
+          return{
+            ...produits,
+            isAdded: false
+          }
+      }else{
+          return{
+            ...produits
+          }
+      }
+    })
+
+    return {
+      ...state,
+      listeProduits: arrayWithProduitDeleted
+    }
+
 
     case actionTypes.DELETEPRODUITSFROMDATASUCC:
 
@@ -44,7 +72,7 @@ const listeProduits = (state = initialState, action) => {
     const newProduitListe = {
       id: action.id,
       nom: (action.nomProduit).toLowerCase(),
-      idAdded: action.isAdded
+      idAdded: false
     }
 
     return {

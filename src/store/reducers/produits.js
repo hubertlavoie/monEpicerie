@@ -8,6 +8,13 @@ const produits = (state = initialState, action) => {
 
   switch (action.type) {
 
+    case actionTypes.RESETALL:
+
+    return{
+      ...state,
+      produits: []
+    }
+
     case actionTypes.ADDPRODUIT:
 
       const newProduit = {

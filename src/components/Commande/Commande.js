@@ -94,6 +94,10 @@ class Commande extends Component {
     }
   }
 
+  capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   render() {
 
     // let montantInitial = this.state.montantInitial ? this.state.montantInitial + "$" : null;
@@ -115,14 +119,15 @@ class Commande extends Component {
     //   </div>)
     // }
 
-    const lesProduitsDeLaListe = this.props.listeProduits.map(x=>{
-    if(x.isAdded === false){
-      return x.nom
+    let lesProduitsDeLaListe = this.props.listeProduits.map(x=>{
+
+    if(x.isAdded !== true){
+      return this.capitalizeFirstLetter(x.nom)
     } else {
       return null
     }
     });
-    console.log(lesProduitsDeLaListe)
+
     let isDisabled = true;
     this.state.nomProduit !== "" ? isDisabled = false : isDisabled = true;
 

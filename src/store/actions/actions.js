@@ -27,8 +27,9 @@ export const addListeProduit = (nom) => {
   return dispatch => {
     
     firebase.database().ref('produits/' + leNouveauId).set({
-      nom: nom.toLowerCase(),
-      isAdded: false
+      isAdded: false,
+      nom: nom.toLowerCase()
+      
     }).then ( response => {
         dispatch(addListeProduitSuccess(leNouveauId, nom));
     }).catch ( error => {
