@@ -10,6 +10,27 @@ const listeProduits = (state = initialState, action) => {
   switch (action.type) {
 
 
+    case actionTypes.VERIFYIFINLIST:
+
+    let arrayIsInList = state.listeProduits.map(produits => {
+      if(produits.nom === action.nom){
+        return {
+          ...produits,
+          isAdded: true
+        }
+      }else{
+        return {...produits}
+      }
+
+    })
+
+    
+
+    return{
+      ...state,
+      listeProduits: arrayIsInList
+    }
+
     case actionTypes.DELETEPRODUITSFROMDATASUCC:
 
     const updatedArray3 = state.listeProduits.filter(produit => produit.id !== action.leId);
@@ -22,7 +43,8 @@ const listeProduits = (state = initialState, action) => {
 
     const newProduitListe = {
       id: action.id,
-      nom: action.nomProduit
+      nom: (action.nomProduit).toLowerCase(),
+      idAdded: action.isAdded
     }
 
     return {

@@ -9,6 +9,7 @@ import * as actionTypes from '../../store/actions/actionTypes';
 import AutoComplete from 'material-ui/AutoComplete';
 import logo from '../../assets/images/monEpicerie.png';
 import Toggle from 'material-ui/Toggle';
+// import * as actions from '../../store/actions/index';
 
 const TAXES = {
   tps: 5,
@@ -35,6 +36,7 @@ class Commande extends Component {
   keyPressedProduits=(event)=>{
     if (event.keyCode === 13 && this.state.montantInitial !== ""){
       this.props.addProduit(this.state.nomProduit,this.state.montantFinal,this.state.totalTPS,this.state.totalTVQ,this.state.montantInitial);
+      this.props.verifyIfInList(this.state.nom);
       this.resetProd(event);
       this.handleClick();
     }
@@ -58,7 +60,7 @@ class Commande extends Component {
   }
 
   creationDuProduit = (event) =>{
-      this.setState({nomProduit: event});
+      this.setState({nomProduit: event.toLowerCase()});
   }
 
   resetProd = (event) => {
@@ -113,7 +115,14 @@ class Commande extends Component {
     //   </div>)
     // }
 
-    const lesProduitsDeLaListe = this.props.listeProduits.map(x=>x.nom);
+    const lesProduitsDeLaListe = this.props.listeProduits.map(x=>{
+    if(x.isAdded === false){
+      return x.nom
+    } else {
+      return null
+    }
+    });
+    console.log(lesProduitsDeLaListe)
     let isDisabled = true;
     this.state.nomProduit !== "" ? isDisabled = false : isDisabled = true;
 
@@ -159,6 +168,7 @@ class Commande extends Component {
           onClick={
             (e) => {
             this.props.addProduit(this.state.nomProduit,this.state.montantFinal,this.state.totalTPS,this.state.totalTVQ,this.state.montantInitial);
+            this.props.verifyIfInList(this.state.nomProduit);
             this.resetProd(e);
             this.handleClick();
             }
@@ -187,8 +197,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addProduit: (nom,prixTotal,tps,tvq,leprix) => dispatch({type: actionTypes.ADDPRODUIT, produitData: {nomProduit: nom, prixTotal: prixTotal, tps: tps, tvq: tvq, prix: leprix}})
+    addProduit: (nom,prixTotal,tps,tvq,leprix) => dispatch({type: actionTypes.ADDPRODUIT, produitData: {nomProduit: nom, prixTotal: prixTotal, tps: tps, tvq: tvq, prix: leprix}}),
+    verifyIfInList: (lnom) => dispatch({type: actionTypes.VERIFYIFINLIST, nom: lnom}) 
   };
 };
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Commande);

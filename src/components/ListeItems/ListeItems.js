@@ -48,12 +48,12 @@ class ListeItems extends Component {
     }
 
     let lesItems = this.props.listeProduits.map(x=>{
-      return <ListeItem primaryText={x.nom} key={x.id} click={() => {
+      return <ListeItem primaryText={x.nom} selected={x.isAdded} key={x.id} click={() => {
         this.props.deleteProduit(x.id);
         this.vibrate();
       }} />
     })
-
+    
     return (
       <Aux>
         <div className="ajouterProduit">

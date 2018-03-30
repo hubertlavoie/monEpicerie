@@ -4,5 +4,6 @@ export {
   addListeProduitFail,
   dispatchProduits,
   deleteProduitsFromData,
-  deleteProduitsFromDataSuccess
+  deleteProduitsFromDataSuccess,
+  verifyIfInList
 } from './actions';
