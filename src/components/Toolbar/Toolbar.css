@@ -13,3 +13,8 @@
   margin: 0px;
   background: #00bcd4;
 }
+@media (max-width:500px){
+  .totalPrice{
+    padding: 16px;
+  }
+}

@@ -36,7 +36,7 @@ class Commande extends Component {
   keyPressedProduits=(event)=>{
     if (event.keyCode === 13 && this.state.montantInitial !== ""){
       this.props.addProduit(this.state.nomProduit,this.state.montantFinal,this.state.totalTPS,this.state.totalTVQ,this.state.montantInitial);
-      this.props.verifyIfInList(this.state.nom);
+      this.props.verifyIfInList(this.state.nomProduit);
       this.resetProd(event);
       this.handleClick();
     }
@@ -138,7 +138,6 @@ class Commande extends Component {
 
         <div className="nouveauProduit">
           <AutoComplete
-            hintText="Nom du produit"
             floatingLabelText="Nom du produit"
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={lesProduitsDeLaListe}
@@ -156,7 +155,6 @@ class Commande extends Component {
           />
           </div>
           <TextField
-            hintText="Montant avant/hors taxes"
             floatingLabelText="Montant avant/hors taxes"
             type="number"
             disabled={isDisabled}
