@@ -11,7 +11,8 @@ import * as firebase from "firebase";
 class Produits extends Component {
 
   state ={
-    open:false
+    open:false,
+    commandePasse: false
   }
 
   handleClick = () => {
@@ -20,9 +21,16 @@ class Produits extends Component {
     });
   };
 
+  handleCommandePasse = () => {
+    this.setState({
+      commandePasse: true,
+    });
+  };
+
   handleRequestClose = () => {
     this.setState({
       open: false,
+      commandePasse: false
     });
   };
 
@@ -36,9 +44,9 @@ class Produits extends Component {
         if(produits.isAdded === true){
           firebase.database().ref('produits/' + produits.id).remove()
         }
-        
       }
-    )
+    );
+    this.handleCommandePasse();
    
   }
 
@@ -63,7 +71,7 @@ class Produits extends Component {
             this.vibrate();
           }} />
       })
-      btnPasserCommande = <div style={{textAlign:"center",marginTop:"30px"}}><RaisedButton primary label="Passer la commande" onClick={()=>{
+      btnPasserCommande = <div style={{textAlign:"center",margin:"30px 0"}}><RaisedButton primary label="Passer la commande" onClick={()=>{
         this.props.resetAll();
         this.removeProdsFromDatabase();
         
@@ -81,6 +89,12 @@ class Produits extends Component {
           <Snackbar
             open={this.state.open}
             message="Le produit a été supprimé 😡"
+            autoHideDuration={2000}
+            onRequestClose={this.handleRequestClose}
+          />
+          <Snackbar
+            open={this.state.commandePasse}
+            message="Votre épicerie est maintenant terminée 😂"
             autoHideDuration={2000}
             onRequestClose={this.handleRequestClose}
           />
